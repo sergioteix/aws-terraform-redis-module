@@ -19,7 +19,7 @@ resource "aws_elasticache_replication_group" "redis" {
 }
 
 resource "aws_elasticache_parameter_group" "redis_parameter_group" {
-  name = replace(format("%.255s", lower(replace("redis-${var.name}", "_", "-"))), "/\\s/", "-")
+  name = "${var.name}-parametergroup"
 
   description = "Terraform-managed ElastiCache parameter group for ${var.name}"
 
