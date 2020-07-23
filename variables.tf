@@ -81,3 +81,5 @@ variable "tags" {
 }
 
 variable "replication_group_description" {}
+
+variable "replication_group_id" {}
