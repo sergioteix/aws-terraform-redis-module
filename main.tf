@@ -24,7 +24,7 @@ resource "aws_elasticache_parameter_group" "redis_parameter_group" {
   description = "Terraform-managed ElastiCache parameter group for ${var.name}"
 
   # Strip the patch version from redis_version var
-  family = var.redis_family
+  family = "redis${replace(var.redis_version, "/\\.[\\d]+$/", "")}"
 
   lifecycle {
     create_before_destroy = true
