@@ -19,9 +19,9 @@ resource "aws_elasticache_replication_group" "redis" {
 }
 
 resource "aws_elasticache_parameter_group" "redis_parameter_group" {
-  name = replace(format("%.255s", lower(replace("redis-${var.name}-${var.environment}", "_", "-"))), "/\\s/", "-")
+  name = replace(format("%.255s", lower(replace("redis-${var.name}", "_", "-"))), "/\\s/", "-")
 
-  description = "Terraform-managed ElastiCache parameter group for ${var.name}-${var.environment}"
+  description = "Terraform-managed ElastiCache parameter group for ${var.name}"
 
   # Strip the patch version from redis_version var
   family = "redis${replace(var.redis_version, "/\\.[\\d]+$/", "")}"
@@ -32,17 +32,17 @@ resource "aws_elasticache_parameter_group" "redis_parameter_group" {
 }
 
 resource "aws_elasticache_subnet_group" "redis_subnet_group" {
-  name       = replace(format("%.255s", lower(replace("redis-${var.name}-${var.environment}", "_", "-"))), "/\\s/", "-")
+  name       = "${var.name}-subnetgroup"
   subnet_ids = var.subnets
 }
 
 resource "aws_security_group" "redis_security_group" {
-  name        = format("%.255s", "${var.name}-${var.environment}")
+  name        = "${var.name}-subnetgroup"
   description = "Terraform-managed ElastiCache security group for ${var.name}-${var.environment}"
   vpc_id      = var.vpc_id
 
   tags = {
-    Name = "${var.name}-${var.environment}"
+    Name = "${var.name}"
   }
 }
 
